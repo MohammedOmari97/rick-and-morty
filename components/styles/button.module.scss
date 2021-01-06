@@ -1,0 +1,43 @@
+.button {
+  // background: none;
+  border: 1px solid;
+  padding: 10px 30px;
+  // background: #d1d5db;
+  // background: rgb(239, 239, 239);
+  background: #fafbfc;
+  // color: #333;
+  color: #24292e;
+  border-radius: 15px;
+  border-color: rgba(27, 31, 35, 0.15);
+  margin-top: 20px;
+  box-shadow: 0 0 #0000, 0 0 #0000, 0 1px 3px 0 rgba(0, 0, 0, 0.1),
+    0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.07s cubic-bezier(0.3, 0, 0.5, 1);
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 10px;
+
+  svg {
+    vertical-align: middle;
+  }
+
+  &:hover {
+    background: #f3f4f6;
+  }
+
+  &:active {
+    background: #edeff2;
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+  }
+}

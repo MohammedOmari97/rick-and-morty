@@ -1,0 +1,31 @@
+.container {
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 10px;
+
+  .filter {
+    width: 45%;
+
+    span {
+      font-size: 15px;
+      margin-bottom: 5px;
+      display: block;
+    }
+  }
+
+  @media screen and (max-width: 990px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin: auto;
+
+    .filter {
+      width: 100%;
+    }
+  }
+}

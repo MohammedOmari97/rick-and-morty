@@ -1,0 +1,136 @@
+.container {
+  width: 100%;
+  height: calc(100% - 60px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    // margin-bottom: 40px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    flex: 1 1 auto;
+    // height: fill-available;
+    overflow-y: auto;
+
+    .character {
+      width: 70%;
+      height: 110px;
+      margin: auto;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      border-radius: 22px;
+      // box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+
+      .characterHeader {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        // align-items: center;
+
+        .charName {
+          display: flex;
+          flex-direction: row;
+          gap: 5px;
+          align-items: center;
+
+          h4 {
+            font-size: 18px;
+            margin: 0;
+          }
+
+          span {
+            font-size: 14px;
+            color: rgba(0, 0, 0, 0.7);
+            font-weight: bold;
+          }
+        }
+
+        .charStatus {
+          display: flex;
+          flex-direction: row;
+          align-items: baseline;
+          gap: 6px;
+          font-size: 15px;
+          font-weight: bold;
+          color: rgba(0, 0, 0, 0.7);
+
+          .Alive {
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            // background: #63db3b;
+            background: #87d355;
+          }
+
+          .Dead {
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            // background: #ef4444;
+            background: #ff3d3d;
+          }
+
+          .unknown {
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            background: #fbbf24;
+          }
+        }
+      }
+
+      img {
+        border-radius: 20px;
+        width: 90px;
+        height: auto;
+        object-fit: cover;
+        // border: 1px solid white;
+      }
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  ::-webkit-scrollbar-thumb:active {
+    background: #252525;
+  }
+
+  @media screen and (max-width: 830px) {
+    .content {
+      overflow-y: visible;
+    }
+  }
+
+  @media screen and (max-width: 670px) {
+    .content {
+      a {
+        width: 98% !important;
+      }
+    }
+  }
+}

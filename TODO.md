@@ -1,0 +1,5 @@
+- make the editing in the devtools work from the first time
+- test the app for edge cases
+- disable the filter and search buttons when viewing a single character
+- add a back button in the single character view
+- URL's current type inconsistencies (id = pagination || infinite loading)

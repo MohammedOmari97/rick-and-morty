@@ -1,0 +1,129 @@
+.devtoolsLogo {
+  width: 50px;
+  height: 50px !important;
+  background-color: #2563eb88;
+  border-radius: 50%;
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  cursor: pointer;
+  z-index: 1000;
+
+  &:after {
+    content: "";
+    position: fixed;
+    bottom: 12px;
+    left: 12px;
+    width: 46px;
+    height: 46px;
+    background-color: #60a5fa;
+    // background-color: red;
+    border-radius: 50%;
+    z-index: -1000;
+    animation: scaleAndFade 1.5s ease infinite;
+  }
+
+  @keyframes scaleAndFade {
+    from {
+      transform: scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+}
+
+.container {
+  position: fixed;
+  bottom: 0;
+  height: 50%;
+  width: 100%;
+  // overflow-y: auto;
+  background-color: #132337;
+
+  .resizer {
+    cursor: row-resize;
+    height: 5px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .devtoolsPanel {
+    overflow-y: auto;
+    margin-top: 5px;
+    height: 100%;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    .fetchOptions {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+
+      fieldset {
+        border: none;
+
+        label {
+          margin-right: 5px;
+          font-size: 15px;
+        }
+
+        input {
+          padding: 0.3em 0.4em;
+          border: none;
+          border-radius: 0.2em;
+
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+    }
+
+    .extraOptions {
+      padding: 0px 13px;
+
+      .danger {
+        border: none;
+        background: crimson;
+        color: white;
+        padding: 5px;
+        margin-bottom: 2px;
+        border-radius: 3px;
+        font-weight: bold;
+        cursor: pointer;
+
+        &:active {
+          outline: none;
+        }
+      }
+    }
+
+    .reactQueryDevtoolsPanel {
+      > div {
+        display: none;
+      }
+    }
+  }
+  .closeBtn {
+    border: none;
+    border-radius: 0.3em;
+    background: #3f4e60;
+    color: white;
+    padding: 5px 10px;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    cursor: pointer;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

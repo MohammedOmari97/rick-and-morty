@@ -1,0 +1,11 @@
+.container {
+  // width: 50%;
+  width: 700px;
+  height: 100%;
+  // overflow-y: auto;
+  position: relative;
+
+  @media screen and (max-width: 830px) {
+    width: 99%;
+  }
+}
