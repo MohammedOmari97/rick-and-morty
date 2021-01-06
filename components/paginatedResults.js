@@ -10,7 +10,14 @@ import EpisodeItem from "./episodeItem"
 import { getResults } from "./api"
 import { controlsContext } from "./controlsContext"
 
-function PaginatedResults({ resultsFor, id, page, filters, search }) {
+function PaginatedResults({
+  resultsFor,
+  id,
+  page,
+  filters,
+  search,
+  parentRef,
+}) {
   const router = useRouter()
 
   console.log(page)
@@ -50,6 +57,15 @@ function PaginatedResults({ resultsFor, id, page, filters, search }) {
     //   })
   })
 
+  const paginationRef = useRef()
+
+  useEffect(() => {
+    if (data && data.results) {
+      // paginationRef.current.scrollIntoView()
+      parentRef.current.scrollIntoView()
+    }
+  }, [data])
+
   const pagesNum = useRef(1)
 
   if (data && data.info) {
@@ -70,7 +86,11 @@ function PaginatedResults({ resultsFor, id, page, filters, search }) {
   console.log(selectedPage)
 
   return (
-    <div style={{ width: "100%" }} className={styles.container}>
+    <div
+      ref={paginationRef}
+      style={{ width: "100%" }}
+      className={styles.container}
+    >
       {!id ? (
         <Paginate
           pageCount={pagesNum.current}

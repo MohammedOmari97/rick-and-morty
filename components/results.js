@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useRef } from "react"
 import styles from "./styles/results.module.scss"
 import Tabs from "./tabs"
 import PaginatedResults from "./paginatedResults"
@@ -19,8 +19,10 @@ function Results({ resultsFor, id, page, type, filters, search }) {
     return <Character id={id} />
   }
 
+  const resultsRef = useRef()
+
   return (
-    <div className={styles.container}>
+    <div ref={resultsRef} className={styles.container}>
       <Tabs
         disabled={router.pathname === "/"}
         tabs={["Infinite Loading", "Pagination"]}
@@ -41,6 +43,7 @@ function Results({ resultsFor, id, page, type, filters, search }) {
                   page={page}
                   filters={filters}
                   search={search}
+                  parentRef={resultsRef}
                 />
               ) : null}
             </>
