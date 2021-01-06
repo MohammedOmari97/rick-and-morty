@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useContext,
 } from "react"
-import { ReactQueryDevtoolsPanel } from "react-query/devtools"
+import { ReactQueryDevtoolsPanel } from "react-query/lib/devtools/devtools"
 import styles from "./styles/devtools.module.scss"
 import { controlsContext } from "./controlsContext"
 import { useQueryClient } from "react-query"
