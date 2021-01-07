@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { useInfiniteQuery } from "react-query"
 import styles from "./styles/infiniteLoading.module.scss"
 import CharacterItem from "./characterItem"
@@ -9,12 +9,18 @@ import { getUrl, getParameterByName } from "../utils/utils"
 import { controlsContext } from "./controlsContext"
 import { getResults } from "./api"
 
-function InfiniteLoadingResults({ resultsFor, filters, search }) {
+function InfiniteLoadingResults({ resultsFor, filters, search, parentRef }) {
   let queryId = [resultsFor, filters, search]
 
   const { controls } = useContext(controlsContext)
 
-  const options = useInfiniteQuery(
+  const {
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
+    data,
+    status,
+  } = useInfiniteQuery(
     queryId,
     async ({ pageParam = 0 }) => {
       return await getResults(
@@ -38,15 +44,21 @@ function InfiniteLoadingResults({ resultsFor, filters, search }) {
     }
   )
 
-  window.__options__ = options
+  useEffect(() => {
+    if (data && data.pages.length === 1) {
+      parentRef.current.scrollIntoView()
+    }
+  }, [data])
 
-  if (!options) return null
+  // window.__options__ = options
 
-  console.log(options.data)
+  // if (!options) return null
+
+  console.log(data)
 
   return (
     <div className={styles.container}>
-      {options.status === "loading" ? (
+      {status === "loading" ? (
         <Spinner
           style={{ display: "inline" }}
           type="TailSpin"
@@ -54,14 +66,14 @@ function InfiniteLoadingResults({ resultsFor, filters, search }) {
           height={30}
           width={30}
         />
-      ) : options.status === "error" ? (
+      ) : status === "error" ? (
         <div className={styles.error}>Unable to fetch...</div>
       ) : (
         <div className={styles.content}>
           {/* {JSON.stringify(options.data.pages, null, 2)} */}
           <>
-            {options.data.pages ? (
-              options.data.pages.map((page) => {
+            {data.pages ? (
+              data.pages.map((page) => {
                 if (!page.results)
                   return (
                     <div style={{ marginTop: "20px" }}>
@@ -92,8 +104,8 @@ function InfiniteLoadingResults({ resultsFor, filters, search }) {
               <div>Nothing to show here.</div>
             )}
           </>
-          <Button onClick={() => options.fetchNextPage()}>
-            {options.isFetchingNextPage ? (
+          <Button onClick={() => fetchNextPage()}>
+            {isFetchingNextPage ? (
               <>
                 Loading{" "}
                 <Spinner
@@ -104,7 +116,7 @@ function InfiniteLoadingResults({ resultsFor, filters, search }) {
                   width={20}
                 />
               </>
-            ) : options.hasNextPage ? (
+            ) : hasNextPage ? (
               "load more"
             ) : (
               "nothing more to load"

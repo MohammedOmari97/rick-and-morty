@@ -4,7 +4,7 @@ import styles from "./styles/characterItem.module.scss"
 
 function Character({ id, name, img, species, status }) {
   return (
-    <Link href={`/character/${id}`}>
+    <Link href={`/character/${id}`} scroll={false}>
       <a style={{ width: "70%", textDecoration: "none", color: "inherit" }}>
         <div className={styles.character}>
           <img src={img} />

@@ -35,6 +35,7 @@ function Results({ resultsFor, id, page, type, filters, search }) {
                   resultsFor={resultsFor}
                   filters={filters}
                   search={search}
+                  parentRef={resultsRef}
                 />
               ) : selectedTab === "pagination" ? (
                 <PaginatedResults

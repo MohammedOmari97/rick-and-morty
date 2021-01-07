@@ -9,6 +9,7 @@ import { getUrl } from "../utils/utils"
 import EpisodeItem from "./episodeItem"
 import { getResults } from "./api"
 import { controlsContext } from "./controlsContext"
+import LoadingOverlay from "./loadingOverlay"
 
 function PaginatedResults({
   resultsFor,
@@ -40,28 +41,39 @@ function PaginatedResults({
     queryId = [resultsFor, 1, filters, search]
   }
 
-  console.log(getUrl(resultsFor, id, page, filters))
-  const { status, data } = useQuery(queryId, async () => {
-    return await getResults(
-      controls,
-      getUrl(resultsFor, id, page, filters, search)
-    )
-    // return fetch(getUrl(resultsFor, id, page, filters, search))
-    //   .then((r) => r.json())
-    //   .then((r) => {
-    //     if (id) {
-    //       return r
-    //     } else {
-    //       return r
-    //     }
-    //   })
-  })
+  const currentResults = useRef()
+  const currentPage = useRef() // should be called `lastPage`
 
-  const paginationRef = useRef()
+  console.log(getUrl(resultsFor, id, page, filters))
+  const { status, data } = useQuery(
+    queryId,
+    async () => {
+      return await getResults(
+        controls,
+        getUrl(resultsFor, id, page, filters, search)
+      )
+    },
+    {
+      onSuccess: () => {
+        currentResults.current = data
+        currentPage.current = selectedPage
+      },
+      onError: () => {
+        if (currentPage.current) {
+          setTimeout(() => {
+            setSelectedPage(currentPage.current)
+            router.push({
+              pathname: router.pathname,
+              query: { ...router.query, page: Number(currentPage.current) },
+            })
+          }, 1000)
+        }
+      },
+    }
+  )
 
   useEffect(() => {
     if (data && data.results) {
-      // paginationRef.current.scrollIntoView()
       parentRef.current.scrollIntoView()
     }
   }, [data])
@@ -84,13 +96,11 @@ function PaginatedResults({
 
   console.log(status)
   console.log(selectedPage)
+  console.log(currentResults)
+  console.log(data)
 
   return (
-    <div
-      ref={paginationRef}
-      style={{ width: "100%" }}
-      className={styles.container}
-    >
+    <div style={{ width: "100%" }} className={styles.container}>
       {!id ? (
         <Paginate
           pageCount={pagesNum.current}
@@ -117,42 +127,35 @@ function PaginatedResults({
           forcePage={+selectedPage - 1}
         />
       ) : null}
-      <div className={styles.content}>
-        {status === "loading" ? (
-          <Spinner
-            style={{ display: "inline" }}
-            type="TailSpin"
-            color="#24292e"
-            height={30}
-            width={30}
-          />
-        ) : status === "error" ? (
-          <div>Unable to fetch characters!</div>
-        ) : (
-          <>
-            {data.results ? (
-              data.results.map((item) => {
-                if (resultsFor === "characters") {
-                  return (
-                    <CharacterItem
-                      id={item.id}
-                      name={item.name}
-                      img={item.image}
-                      status={item.status}
-                      species={item.species}
-                      key={item.id}
-                    />
-                  )
-                } else {
-                  return <EpisodeItem id={item.id} />
-                }
-              })
-            ) : (
-              <div>Nothing to show here.</div>
-            )}
-          </>
-        )}
-      </div>
+      {status === "error" ? <div>Can't fetch page {selectedPage}</div> : null}
+      <LoadingOverlay isActive={status === "loading"}>
+        <div className={styles.content}>
+          {status === "success" ? (
+            <>
+              {currentResults.current?.results ? (
+                currentResults.current?.results.map((item) => {
+                  if (resultsFor === "characters") {
+                    return (
+                      <CharacterItem
+                        id={item.id}
+                        name={item.name}
+                        img={item.image}
+                        status={item.status}
+                        species={item.species}
+                        key={item.id}
+                      />
+                    )
+                  } else {
+                    return <EpisodeItem id={item.id} />
+                  }
+                })
+              ) : (
+                <div>Nothing to show here.</div>
+              )}
+            </>
+          ) : null}
+        </div>
+      </LoadingOverlay>
     </div>
   )
 }
